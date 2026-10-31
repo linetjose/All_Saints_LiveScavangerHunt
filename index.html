@@ -20,14 +20,14 @@
     <div class="max-w-3xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-2">
       <div>
         <h1 class="text-xl font-bold tracking-wide">✨ All Saints' Day Challenge</h1>
-        <p class="text-xs text-amber-200">Parish Dress-Up Scavenger Hunt</p>
+        <p class="text-xs text-amber-200">Parish Community Dress-Up Quiz</p>
       </div>
       <div class="flex gap-1.5">
         <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-amber-800 shadow">
-          Play Quiz
+          Quiz
         </button>
         <button onclick="switchTab('leaderboard')" id="tab-leaderboard" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600">
-          🏆 Scores & Export
+          🏆 Leaderboard
         </button>
         <button onclick="switchTab('qr')" id="tab-qr" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600">
           QR Poster
@@ -43,39 +43,34 @@
       <div class="bg-white rounded-2xl shadow-sm border border-amber-200 p-5">
         <h2 class="text-lg font-bold text-amber-900 mb-1">How to Play</h2>
         <p class="text-sm text-slate-600 mb-4">
-          Spot the kids dressed as saints around the parish hall and type the <strong>name of the child</strong> matching each saint below! Each correct match earns <strong>10 points</strong>.
+          Walk around the parish hall, find the child dressed as each saint on the list below, and type that <strong>child's name</strong> in the text box! Each correct answer earns <strong>10 points</strong>. <em>(Note: One submission per participant name!)</em>
         </p>
-
-        <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-3 mb-4">
-          <p class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">Participating Kids (Word Bank):</p>
-          <div id="kid-word-bank" class="flex flex-wrap gap-1.5"></div>
-        </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Your Name / Family Name *</label>
-            <input type="text" id="player-name" placeholder="e.g., Thomas Family" 
+            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Participant Name *</label>
+            <input type="text" id="player-name" autocomplete="off" placeholder="Enter your full name..." 
               class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none">
           </div>
           <div>
             <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Ward / Group (Optional)</label>
-            <input type="text" id="player-group" placeholder="e.g., St. Joseph Ward" 
+            <input type="text" id="player-group" autocomplete="off" placeholder="e.g., St. Joseph Ward" 
               class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none">
           </div>
         </div>
       </div>
 
+      <!-- Saint Questions Container (Free-Text Input Boxes Only — No Word Bank or Drop-Down) -->
       <div id="questions-container" class="space-y-3"></div>
-      <datalist id="kids-datalist"></datalist>
 
       <div class="pt-2 pb-8">
         <button id="submit-btn" onclick="submitQuiz()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg transition text-lg">
-          Submit Answers
+          Submit Final Answers
         </button>
       </div>
     </section>
 
-    <!-- ================= TAB 2: CLEAN SCORE CARD (NO ANSWERS SHOWN) ================= -->
+    <!-- ================= TAB 2: SCORE CARD (NO PLAY AGAIN & NO ANSWERS SHOWN) ================= -->
     <section id="view-results" class="hidden space-y-6">
       <div class="bg-white rounded-2xl shadow-lg border-4 border-amber-400 p-8 text-center">
         <div class="text-5xl mb-3">👑</div>
@@ -83,50 +78,42 @@
         <p class="text-slate-600 mt-1 text-base">Participant: <span id="cert-name" class="font-bold text-slate-900"></span></p>
         
         <p id="save-status" class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-3.5 py-1 inline-block mt-3">
-          ✅ Score Recorded
+          ✅ Sent to Quiz Leader's Google Sheet
         </p>
         
-        <!-- Summary Score Box Only (Individual Answers Hidden) -->
+        <!-- Summary Score Only (Correct Answers Hidden) -->
         <div class="my-6 bg-amber-50 rounded-2xl py-6 px-6 border border-amber-200 block max-w-xs mx-auto shadow-inner">
           <p class="text-xs uppercase font-bold tracking-widest text-amber-700">Your Total Score</p>
           <p class="text-5xl font-black text-amber-600 my-2" id="score-display">0 / 0</p>
           <p class="text-xs text-slate-500 font-medium" id="accuracy-display"></p>
         </div>
 
-        <p class="text-xs text-slate-400 max-w-md mx-auto">
-          Individual answers are kept hidden until the end of the event so everyone gets a fair chance to play!
+        <p class="text-xs text-slate-400 mb-6">
+          Thank you for participating in our All Saints' Day Challenge!
         </p>
 
-        <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center no-print">
-          <button onclick="downloadMyReceipt()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-5 rounded-xl shadow text-sm">
-            💾 Download Score Receipt (.txt)
-          </button>
-          <button onclick="switchTab('leaderboard')" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2.5 px-5 rounded-xl shadow text-sm">
-            🏆 View Leaderboard
+        <div class="flex justify-center no-print">
+          <button onclick="switchTab('leaderboard')" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2.5 px-6 rounded-xl shadow text-sm">
+            🏆 View Live Leaderboard
           </button>
         </div>
       </div>
     </section>
 
-    <!-- ================= TAB 3: LEADERBOARD & CSV FILE DOWNLOAD ================= -->
+    <!-- ================= TAB 3: LIVE LEADERBOARD VIEW ================= -->
     <section id="view-leaderboard" class="hidden space-y-4">
       <div class="bg-white rounded-2xl shadow-sm border border-amber-200 p-5">
         <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
           <div>
-            <h2 class="text-xl font-extrabold text-amber-900">🏆 Parish Leaderboard & Score File</h2>
-            <p class="text-xs text-slate-500">Ranked by highest score, then earliest submission time</p>
+            <h2 class="text-xl font-extrabold text-amber-900">🏆 Official Parish Leaderboard</h2>
+            <p class="text-xs text-slate-500">Live from the Quiz Leader's Google Sheet (Ranked by Score & Time)</p>
           </div>
-          <div class="flex gap-2">
-            <button onclick="loadLeaderboard()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-3 py-2 rounded-xl">
-              🔄 Refresh
-            </button>
-            <button onclick="exportAllScoresToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow">
-              📥 Download Scores File (.CSV)
-            </button>
-          </div>
+          <button onclick="loadLeaderboard()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-3.5 py-2 rounded-xl">
+            🔄 Refresh Standings
+          </button>
         </div>
         <div id="leaderboard-list" class="space-y-2 text-sm text-slate-600">
-          Loading scores...
+          Loading leaderboard from Quiz Leader's Google Sheet...
         </div>
       </div>
     </section>
@@ -137,7 +124,7 @@
         <p class="text-sm font-bold uppercase tracking-widest text-amber-600 mb-1">Parish All Saints' Day</p>
         <h2 class="text-3xl font-black text-slate-900 mb-2">Who's That Saint?</h2>
         <p class="text-slate-600 text-sm mb-6">
-          Scan the QR code below with your phone camera to join the live costume scavenger hunt! Spot the saints, type each child's name, and earn points!
+          Scan the QR code below with your phone camera to join the live costume scavenger hunt!
         </p>
         <div class="flex justify-center my-4">
           <div id="qrcode" class="p-4 bg-white border-4 border-amber-500 rounded-2xl shadow-sm"></div>
@@ -155,61 +142,53 @@
 
   <script>
     // =========================================================================
-    // 1. PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW:
+    // 1. QUIZ LEADER: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
     // =========================================================================
     const GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE";
 
     // =========================================================================
-    // 2. EDIT YOUR SAINTS & PARTICIPATING KIDS ROSTER BELOW:
+    // 2. EDIT YOUR SAINTS & ACCEPTED KID NAMES BELOW
     // =========================================================================
     const SAINT_ROSTER = [
       {
         id: 1,
         saint: "St. Francis of Assisi",
         clue: "Patron saint of animals and creation — look for a brown Franciscan robe or animal plush!",
-        kidDisplay: "Noah",
-        acceptedNames: ["noah", "noah thomas", "1"]
+        acceptedNames: ["noah", "noah thomas"]
       },
       {
         id: 2,
         saint: "St. Thérèse of Lisieux (The Little Flower)",
         clue: "Known for her 'Little Way' of love — look for a Carmelite habit carrying red roses!",
-        kidDisplay: "Sarah",
-        acceptedNames: ["sarah", "sarah jimmy", "2"]
+        acceptedNames: ["sarah", "sarah jimmy"]
       },
       {
         id: 3,
         saint: "St. Alphonsa",
         clue: "First canonized saint of Indian origin — look for a Clarist religious habit and crucifix!",
-        kidDisplay: "Michela",
-        acceptedNames: ["michela", "micki", "michela jimmy", "3"]
+        acceptedNames: ["michela", "micki", "michela jimmy"]
       },
       {
         id: 4,
         saint: "St. George",
         clue: "Courageous Christian soldier — look for armor, a red cross shield, or a dragon prop!",
-        kidDisplay: "Aaron",
-        acceptedNames: ["aaron", "aaron mathew", "4"]
+        acceptedNames: ["aaron", "aaron mathew"]
       },
       {
         id: 5,
         saint: "St. Mother Teresa of Calcutta",
         clue: "Missionary of Charity — look for a white sari with three blue stripes!",
-        kidDisplay: "Joanna",
-        acceptedNames: ["joanna", "juva", "joanna jimmy", "5"]
+        acceptedNames: ["joanna", "juva", "joanna jimmy"]
       },
       {
         id: 6,
         saint: "St. Chavara Kuriakose Elias",
         clue: "Co-founder of CMI & champion of Catholic schools — look for a white cassock and book!",
-        kidDisplay: "Evan",
-        acceptedNames: ["evan", "evan joseph", "6"]
+        acceptedNames: ["evan", "evan joseph"]
       }
     ];
 
     const POINTS_PER_SAINT = 10;
-    let cachedLeaderboardData = [];
-    let lastSubmittedRecord = null;
 
     window.addEventListener("DOMContentLoaded", () => {
       renderQuiz();
@@ -218,27 +197,7 @@
 
     function renderQuiz() {
       const container = document.getElementById("questions-container");
-      const wordBank = document.getElementById("kid-word-bank");
-      const datalist = document.getElementById("kids-datalist");
-
       container.innerHTML = "";
-      wordBank.innerHTML = "";
-      datalist.innerHTML = "";
-
-      const shuffledKids = [...SAINT_ROSTER]
-        .map(item => item.kidDisplay)
-        .sort(() => Math.random() - 0.5);
-
-      shuffledKids.forEach(kid => {
-        const badge = document.createElement("span");
-        badge.className = "bg-white border border-amber-300 text-amber-900 text-xs font-semibold px-2.5 py-1 rounded-full";
-        badge.textContent = kid;
-        wordBank.appendChild(badge);
-
-        const option = document.createElement("option");
-        option.value = kid;
-        datalist.appendChild(option);
-      });
 
       SAINT_ROSTER.forEach((item, index) => {
         const card = document.createElement("div");
@@ -253,10 +212,10 @@
             </div>
             <p class="text-xs text-slate-500 pl-1">${item.clue}</p>
           </div>
-          <div class="sm:w-56 shrink-0">
-            <input type="text" id="answer-${item.id}" list="kids-datalist"
-              placeholder="Type kid's name..." 
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          <div class="sm:w-64 shrink-0">
+            <input type="text" id="answer-${item.id}" autocomplete="off" autocorrect="off" spellcheck="false"
+              placeholder="Type kid's name here..." 
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
           </div>
         `;
         container.appendChild(card);
@@ -267,187 +226,129 @@
       return (str || "").toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
     }
 
+    // Clears all fields so the next family member can use the same phone
+    function clearFormForNextPlayer() {
+      document.getElementById("player-name").value = "";
+      document.getElementById("player-group").value = "";
+      SAINT_ROSTER.forEach(item => {
+        const input = document.getElementById(`answer-${item.id}`);
+        if (input) input.value = "";
+      });
+    }
+
     async function submitQuiz() {
       const playerName = document.getElementById("player-name").value.trim();
       const groupName = document.getElementById("player-group").value.trim();
       if (!playerName) {
-        alert("Please enter your Name or Family Name at the top before submitting!");
+        alert("Please enter your Participant Name at the top before submitting!");
         document.getElementById("player-name").focus();
         return;
       }
 
-      if (localStorage.getItem("all_saints_submitted") === "true") {
-        if (!confirm("You have already submitted an entry on this phone. Submit another entry anyway?")) {
-          return;
-        }
+      // Check if this specific person already submitted on this phone
+      const normalizedPlayer = cleanText(playerName);
+      const submittedPlayers = JSON.parse(localStorage.getItem("all_saints_submitted_names") || "[]");
+      if (submittedPlayers.includes(normalizedPlayer)) {
+        alert(`"${playerName}" has already submitted an entry! Only one attempt is allowed per participant.`);
+        return;
       }
 
       const submitBtn = document.getElementById("submit-btn");
       submitBtn.disabled = true;
-      submitBtn.textContent = "Saving Score...";
+      submitBtn.textContent = "Sending Score to Quiz Leader...";
 
       let score = 0;
       const maxScore = SAINT_ROSTER.length * POINTS_PER_SAINT;
       let answerSummary = [];
 
-      // Grade silently in the background (only saved to the organizer's file/sheet, NOT shown on screen)
+      // Grade silently (detailed breakdown goes ONLY to Quiz Leader's Google Sheet)
       SAINT_ROSTER.forEach((item, idx) => {
         const rawInput = document.getElementById(`answer-${item.id}`).value.trim();
         const userClean = cleanText(rawInput);
         const isCorrect = item.acceptedNames.some(ans => cleanText(ans) === userClean);
         if (isCorrect) score += POINTS_PER_SAINT;
 
-        answerSummary.push(`${idx + 1}. ${item.saint}: ${rawInput || "Blank"} (${isCorrect ? "Correct" : "Wrong"})`);
+        answerSummary.push(`${idx + 1}. ${item.saint}: ${rawInput || "Blank"} (${isCorrect ? "✓" : "✗"})`);
       });
 
-      const timestamp = new Date().toLocaleString();
-      lastSubmittedRecord = {
-        timestamp: timestamp,
+      const submittedTime = new Date().toLocaleTimeString();
+      const payload = {
         name: playerName,
         group: groupName,
         score: score,
         maxScore: maxScore,
+        time: submittedTime,
         answers: answerSummary.join(" | ")
       };
 
-      // Also save to local browser storage as a backup file list
-      const localHistory = JSON.parse(localStorage.getItem("parish_quiz_scores") || "[]");
-      localHistory.push(lastSubmittedRecord);
-      localStorage.setItem("parish_quiz_scores", JSON.stringify(localHistory));
-
       const statusEl = document.getElementById("save-status");
 
-      // Send to Central Google Sheet
-      if (GOOGLE_SCRIPT_URL && !GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) {
-        try {
-          await fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "text/plain" },
-            body: JSON.stringify(lastSubmittedRecord)
-          });
-          localStorage.setItem("all_saints_submitted", "true");
-          statusEl.textContent = "✅ Score Saved to Parish Google Sheet!";
-        } catch (err) {
-          statusEl.textContent = "⚠️ Saved Locally — Show this screen to the organizer!";
-        }
-      } else {
-        statusEl.textContent = "✅ Score Calculated — Saved to Local File!";
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        statusEl.textContent = "✅ Score Saved to Quiz Leader's Google Sheet!";
+        statusEl.className = "text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-3.5 py-1 inline-block mt-3";
+      } catch (err) {
+        statusEl.textContent = "⚠️ Could not reach Google Sheet — Please show this screen to the Quiz Leader!";
+        statusEl.className = "text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 rounded-full px-3.5 py-1 inline-block mt-3";
       }
+
+      // Record this person's name so they cannot retry, then clear the inputs for the next person
+      submittedPlayers.push(normalizedPlayer);
+      localStorage.setItem("all_saints_submitted_names", JSON.stringify(submittedPlayers));
+      clearFormForNextPlayer();
 
       const correctCount = score / POINTS_PER_SAINT;
       document.getElementById("cert-name").textContent = groupName ? `${playerName} (${groupName})` : playerName;
       document.getElementById("score-display").textContent = `${score} / ${maxScore}`;
-      document.getElementById("accuracy-display").textContent = `${correctCount} of ${SAINT_ROSTER.length} Correct • Submitted at ${new Date().toLocaleTimeString()}`;
+      document.getElementById("accuracy-display").textContent = `${correctCount} of ${SAINT_ROSTER.length} Correct • Submitted at ${submittedTime}`;
 
       submitBtn.disabled = false;
-      submitBtn.textContent = "Submit Answers";
+      submitBtn.textContent = "Submit Final Answers";
 
       document.getElementById("view-quiz").classList.add("hidden");
       document.getElementById("view-results").classList.remove("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    // Downloads an individual text receipt file for the player
-    function downloadMyReceipt() {
-      if (!lastSubmittedRecord) return;
-      const content = [
-        "==========================================",
-        "   ALL SAINTS' DAY QUIZ — SCORE RECEIPT   ",
-        "==========================================",
-        `Participant : ${lastSubmittedRecord.name}`,
-        `Ward/Group  : ${lastSubmittedRecord.group || "N/A"}`,
-        `Final Score : ${lastSubmittedRecord.score} / ${lastSubmittedRecord.maxScore}`,
-        `Timestamp   : ${lastSubmittedRecord.timestamp}`,
-        "=========================================="
-      ].join("\n");
-
-      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `Score_${lastSubmittedRecord.name.replace(/\s+/g, "_")}.txt`;
-      link.click();
-    }
-
-    // Downloads ALL scores as an Excel-compatible .CSV file for the Organizer
-    function exportAllScoresToCSV() {
-      const dataToExport = cachedLeaderboardData.length
-        ? cachedLeaderboardData
-        : JSON.parse(localStorage.getItem("parish_quiz_scores") || "[]");
-
-      if (!dataToExport.length) {
-        alert("No scores available to download yet!");
-        return;
-      }
-
-      const headers = ["Rank", "Timestamp", "Participant Name", "Ward/Group", "Score", "Max Score"];
-      const csvRows = [headers.join(",")];
-
-      dataToExport.forEach((row, index) => {
-        const safeName = `"${(row.name || "").replace(/"/g, '""')}"`;
-        const safeGroup = `"${(row.group || "").replace(/"/g, '""')}"`;
-        const safeTime = `"${new Date(row.timestamp).toLocaleString()}"`;
-        csvRows.push([index + 1, safeTime, safeName, safeGroup, row.score, row.maxScore].join(","));
-      });
-
-      const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `All_Saints_Quiz_Scores_${new Date().toISOString().slice(0,10)}.csv`;
-      link.click();
-    }
-
     async function loadLeaderboard() {
       const listEl = document.getElementById("leaderboard-list");
+      listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">Loading official standings from Quiz Leader's Google Sheet...</p>`;
 
-      // If Google Script isn't connected yet, fall back to local device scores
-      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) {
-        const localData = JSON.parse(localStorage.getItem("parish_quiz_scores") || "[]");
-        cachedLeaderboardData = localData;
-        if (!localData.length) {
-          listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">No local scores yet. Connect your Google Script URL to sync scores across all phones!</p>`;
-          return;
-        }
-        renderLeaderboardRows(localData);
-        return;
-      }
-
-      listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">Loading latest scores from Google Sheet...</p>`;
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL);
         const data = await res.json();
-        cachedLeaderboardData = data;
 
         if (!data.length) {
           listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">No scores submitted yet! Be the first!</p>`;
           return;
         }
-        renderLeaderboardRows(data);
-      } catch (e) {
-        listEl.innerHTML = `<p class="text-rose-600">Could not load cloud leaderboard. Check your Google Script URL.</p>`;
-      }
-    }
 
-    function renderLeaderboardRows(data) {
-      const listEl = document.getElementById("leaderboard-list");
-      listEl.innerHTML = data.map((row, idx) => {
-        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`;
-        const timeStr = row.timestamp ? new Date(row.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}) : "";
-        return `
-          <div class="flex justify-between items-center p-3 rounded-xl border ${idx < 3 ? 'bg-amber-50/70 border-amber-300' : 'bg-slate-50 border-slate-200'}">
-            <div class="flex items-center gap-3">
-              <span class="font-black text-base w-7 text-center">${medal}</span>
-              <div>
-                <p class="font-bold text-slate-900">${row.name} ${row.group ? `<span class="text-xs font-normal text-slate-500">(${row.group})</span>` : ""}</p>
-                <p class="text-[11px] text-slate-400">Submitted at ${timeStr}</p>
+        listEl.innerHTML = data.map((row, idx) => {
+          const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${row.rank || (idx + 1)}`;
+          const timeStr = row.timestamp ? new Date(row.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}) : "";
+          return `
+            <div class="flex justify-between items-center p-3 rounded-xl border ${idx < 3 ? 'bg-amber-50/70 border-amber-300' : 'bg-slate-50 border-slate-200'}">
+              <div class="flex items-center gap-3">
+                <span class="font-black text-base w-7 text-center">${medal}</span>
+                <div>
+                  <p class="font-bold text-slate-900">${row.name} ${row.group && row.group !== "-" ? `<span class="text-xs font-normal text-slate-500">(${row.group})</span>` : ""}</p>
+                  <p class="text-[11px] text-slate-400">Submitted at ${timeStr}</p>
+                </div>
               </div>
+              <span class="font-black text-amber-800 bg-amber-200/70 px-3 py-1 rounded-lg text-sm">
+                ${row.score} / ${row.maxScore}
+              </span>
             </div>
-            <span class="font-black text-amber-800 bg-amber-200/70 px-3 py-1 rounded-lg text-sm">
-              ${row.score} / ${row.maxScore}
-            </span>
-          </div>
-        `;
-      }).join("");
+          `;
+        }).join("");
+      } catch (e) {
+        listEl.innerHTML = `<p class="text-rose-600 text-center py-4">Make sure you pasted your deployed Google Apps Script URL into <code>GOOGLE_SCRIPT_URL</code> in index.html!</p>`;
+      }
     }
 
     function switchTab(tab) {
@@ -476,9 +377,6 @@
         colorLight: "#ffffff"
       });
     }
-  </script>
-</body>
-</html>
   </script>
 </body>
 </html>
