@@ -9,7 +9,6 @@
   <style>
     @media print {
       .no-print { display: none !important; }
-      .print-only { display: block !important; }
       body { background: white; }
     }
   </style>
@@ -18,16 +17,19 @@
 
   <!-- Top Navigation Bar -->
   <header class="bg-amber-700 text-white shadow-md no-print">
-    <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="max-w-3xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-2">
       <div>
         <h1 class="text-xl font-bold tracking-wide">✨ All Saints' Day Challenge</h1>
-        <p class="text-xs text-amber-200">Parish Community Dress-Up Scavenger Hunt</p>
+        <p class="text-xs text-amber-200">Parish Dress-Up Scavenger Hunt</p>
       </div>
-      <div class="flex gap-2">
-        <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-white text-amber-800 shadow">
+      <div class="flex gap-1.5">
+        <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-amber-800 shadow">
           Play Quiz
         </button>
-        <button onclick="switchTab('qr')" id="tab-qr" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600">
+        <button onclick="switchTab('leaderboard')" id="tab-leaderboard" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600">
+          🏆 Scores & Export
+        </button>
+        <button onclick="switchTab('qr')" id="tab-qr" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600">
           QR Poster
         </button>
       </div>
@@ -37,16 +39,13 @@
   <main class="max-w-3xl mx-auto p-4">
 
     <!-- ================= TAB 1: PLAYER QUIZ VIEW ================= -->
-    <section id="view-quiz" class="space-y-6">
-      
-      <!-- Instructions & Sign-Up Card -->
+    <section id="view-quiz" class="space-y-5">
       <div class="bg-white rounded-2xl shadow-sm border border-amber-200 p-5">
         <h2 class="text-lg font-bold text-amber-900 mb-1">How to Play</h2>
         <p class="text-sm text-slate-600 mb-4">
-          Walk around the parish hall, spot the kids in their saint costumes, and type the **name of the child** dressed as each saint below! Each correct match earns **10 points**.
+          Spot the kids dressed as saints around the parish hall and type the <strong>name of the child</strong> matching each saint below! Each correct match earns <strong>10 points</strong>.
         </p>
 
-        <!-- Helpful Kid Roster Bank (Optional Reference for Spelling) -->
         <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-3 mb-4">
           <p class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">Participating Kids (Word Bank):</p>
           <div id="kid-word-bank" class="flex flex-wrap gap-1.5"></div>
@@ -59,54 +58,80 @@
               class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none">
           </div>
           <div>
-            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Ward / Phone (Optional)</label>
+            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Ward / Group (Optional)</label>
             <input type="text" id="player-group" placeholder="e.g., St. Joseph Ward" 
               class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none">
           </div>
         </div>
       </div>
 
-      <!-- Dynamic Saint Questions List -->
       <div id="questions-container" class="space-y-3"></div>
-
-      <!-- Datalist for Auto-Complete Suggestions -->
       <datalist id="kids-datalist"></datalist>
 
-      <!-- Submit Button -->
       <div class="pt-2 pb-8">
-        <button onclick="submitQuiz()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg transition transform active:scale-98 text-lg">
-          Submit Answers & Calculate Score
+        <button id="submit-btn" onclick="submitQuiz()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg transition text-lg">
+          Submit Answers
         </button>
       </div>
     </section>
 
-    <!-- ================= TAB 2: RESULTS & CERTIFICATE VIEW ================= -->
+    <!-- ================= TAB 2: CLEAN SCORE CARD (NO ANSWERS SHOWN) ================= -->
     <section id="view-results" class="hidden space-y-6">
-      <div class="bg-white rounded-2xl shadow-lg border-4 border-amber-400 p-6 text-center relative overflow-hidden">
-        <div class="text-4xl mb-2">👑</div>
-        <h2 class="text-2xl font-extrabold text-amber-900">All Saints' Day Quiz Complete!</h2>
-        <p class="text-slate-600 mt-1">Participant: <span id="cert-name" class="font-bold text-slate-800"></span></p>
+      <div class="bg-white rounded-2xl shadow-lg border-4 border-amber-400 p-8 text-center">
+        <div class="text-5xl mb-3">👑</div>
+        <h2 class="text-2xl font-extrabold text-amber-900">Quiz Submitted!</h2>
+        <p class="text-slate-600 mt-1 text-base">Participant: <span id="cert-name" class="font-bold text-slate-900"></span></p>
         
-        <div class="my-6 bg-amber-50 rounded-2xl py-5 px-4 border border-amber-200 inline-block min-w-[220px]">
-          <p class="text-xs uppercase font-bold tracking-widest text-amber-700">Total Score</p>
-          <p class="text-5xl font-black text-amber-600 my-1" id="score-display">0 / 0</p>
-          <p class="text-xs text-slate-500" id="accuracy-display"></p>
+        <p id="save-status" class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-3.5 py-1 inline-block mt-3">
+          ✅ Score Recorded
+        </p>
+        
+        <!-- Summary Score Box Only (Individual Answers Hidden) -->
+        <div class="my-6 bg-amber-50 rounded-2xl py-6 px-6 border border-amber-200 block max-w-xs mx-auto shadow-inner">
+          <p class="text-xs uppercase font-bold tracking-widest text-amber-700">Your Total Score</p>
+          <p class="text-5xl font-black text-amber-600 my-2" id="score-display">0 / 0</p>
+          <p class="text-xs text-slate-500 font-medium" id="accuracy-display"></p>
         </div>
 
-        <div id="answer-breakdown" class="text-left space-y-2 mt-4 border-t border-slate-100 pt-4"></div>
+        <p class="text-xs text-slate-400 max-w-md mx-auto">
+          Individual answers are kept hidden until the end of the event so everyone gets a fair chance to play!
+        </p>
 
         <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center no-print">
-          <button onclick="window.print()" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2.5 px-5 rounded-xl shadow">
-            🖨️ Print / Save Score Card
+          <button onclick="downloadMyReceipt()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-5 rounded-xl shadow text-sm">
+            💾 Download Score Receipt (.txt)
           </button>
-          <button onclick="resetQuiz()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold py-2.5 px-5 rounded-xl">
-            Play Again
+          <button onclick="switchTab('leaderboard')" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2.5 px-5 rounded-xl shadow text-sm">
+            🏆 View Leaderboard
           </button>
         </div>
       </div>
     </section>
 
-    <!-- ================= TAB 3: QR CODE POSTER VIEW ================= -->
+    <!-- ================= TAB 3: LEADERBOARD & CSV FILE DOWNLOAD ================= -->
+    <section id="view-leaderboard" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl shadow-sm border border-amber-200 p-5">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+          <div>
+            <h2 class="text-xl font-extrabold text-amber-900">🏆 Parish Leaderboard & Score File</h2>
+            <p class="text-xs text-slate-500">Ranked by highest score, then earliest submission time</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="loadLeaderboard()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-3 py-2 rounded-xl">
+              🔄 Refresh
+            </button>
+            <button onclick="exportAllScoresToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow">
+              📥 Download Scores File (.CSV)
+            </button>
+          </div>
+        </div>
+        <div id="leaderboard-list" class="space-y-2 text-sm text-slate-600">
+          Loading scores...
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 4: QR CODE POSTER VIEW ================= -->
     <section id="view-qr" class="hidden">
       <div class="bg-white rounded-2xl shadow-md border-2 border-amber-300 p-8 text-center max-w-lg mx-auto">
         <p class="text-sm font-bold uppercase tracking-widest text-amber-600 mb-1">Parish All Saints' Day</p>
@@ -114,23 +139,12 @@
         <p class="text-slate-600 text-sm mb-6">
           Scan the QR code below with your phone camera to join the live costume scavenger hunt! Spot the saints, type each child's name, and earn points!
         </p>
-
         <div class="flex justify-center my-4">
           <div id="qrcode" class="p-4 bg-white border-4 border-amber-500 rounded-2xl shadow-sm"></div>
         </div>
-
         <p id="qr-url-label" class="text-xs text-slate-400 break-all mt-3 mb-6"></p>
-
         <div class="no-print space-y-3 border-t border-slate-100 pt-4">
-          <label class="block text-xs font-bold text-slate-500">Custom Quiz URL (Optional):</label>
-          <div class="flex gap-2">
-            <input type="text" id="custom-url" placeholder="Paste your GitHub Pages link here..." 
-              class="flex-1 px-3 py-1.5 text-sm border rounded-lg">
-            <button onclick="updateQR()" class="bg-amber-700 text-white px-4 py-1.5 rounded-lg text-sm font-semibold">
-              Update QR
-            </button>
-          </div>
-          <button onclick="window.print()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 rounded-xl mt-2">
+          <button onclick="window.print()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 rounded-xl">
             🖨️ Print Poster for Parish Hall
           </button>
         </div>
@@ -141,8 +155,12 @@
 
   <script>
     // =========================================================================
-    // ORGANIZER CONFIGURATION: EDIT YOUR SAINTS & KIDS ROSTER HERE!
-    // You can add nicknames separated by a pipe (|) so any match gets full points.
+    // 1. PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW:
+    // =========================================================================
+    const GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE";
+
+    // =========================================================================
+    // 2. EDIT YOUR SAINTS & PARTICIPATING KIDS ROSTER BELOW:
     // =========================================================================
     const SAINT_ROSTER = [
       {
@@ -150,49 +168,49 @@
         saint: "St. Francis of Assisi",
         clue: "Patron saint of animals and creation — look for a brown Franciscan robe or animal plush!",
         kidDisplay: "Noah",
-        acceptedNames: ["noah", "noah thomas", "badge 1", "1"]
+        acceptedNames: ["noah", "noah thomas", "1"]
       },
       {
         id: 2,
         saint: "St. Thérèse of Lisieux (The Little Flower)",
         clue: "Known for her 'Little Way' of love — look for a Carmelite habit carrying red roses!",
         kidDisplay: "Sarah",
-        acceptedNames: ["sarah", "sarah jimmy", "badge 2", "2"]
+        acceptedNames: ["sarah", "sarah jimmy", "2"]
       },
       {
         id: 3,
         saint: "St. Alphonsa",
         clue: "First canonized saint of Indian origin — look for a Clarist religious habit and crucifix!",
         kidDisplay: "Michela",
-        acceptedNames: ["michela", "micki", "michela jimmy", "badge 3", "3"]
+        acceptedNames: ["michela", "micki", "michela jimmy", "3"]
       },
       {
         id: 4,
         saint: "St. George",
         clue: "Courageous Christian soldier — look for armor, a red cross shield, or a dragon prop!",
         kidDisplay: "Aaron",
-        acceptedNames: ["aaron", "aaron mathew", "badge 4", "4"]
+        acceptedNames: ["aaron", "aaron mathew", "4"]
       },
       {
         id: 5,
         saint: "St. Mother Teresa of Calcutta",
         clue: "Missionary of Charity — look for a white sari with three blue stripes!",
         kidDisplay: "Joanna",
-        acceptedNames: ["joanna", "juva", "joanna jimmy", "badge 5", "5"]
+        acceptedNames: ["joanna", "juva", "joanna jimmy", "5"]
       },
       {
         id: 6,
         saint: "St. Chavara Kuriakose Elias",
-        clue: "Co-founder of CMI & champion of Catholic schools — look for a white cassock and scroll/book!",
+        clue: "Co-founder of CMI & champion of Catholic schools — look for a white cassock and book!",
         kidDisplay: "Evan",
-        acceptedNames: ["evan", "evan joseph", "badge 6", "6"]
+        acceptedNames: ["evan", "evan joseph", "6"]
       }
     ];
 
     const POINTS_PER_SAINT = 10;
-    let qrInstance = null;
+    let cachedLeaderboardData = [];
+    let lastSubmittedRecord = null;
 
-    // Initialize Quiz on Load
     window.addEventListener("DOMContentLoaded", () => {
       renderQuiz();
       initQR();
@@ -207,14 +225,13 @@
       wordBank.innerHTML = "";
       datalist.innerHTML = "";
 
-      // Shuffle kid names for the word bank so it isn't in answer order
       const shuffledKids = [...SAINT_ROSTER]
         .map(item => item.kidDisplay)
         .sort(() => Math.random() - 0.5);
 
       shuffledKids.forEach(kid => {
         const badge = document.createElement("span");
-        badge.className = "bg-white border border-amber-300 text-amber-900 text-xs font-semibold px-2.5 py-1 rounded-full shadow-2xs";
+        badge.className = "bg-white border border-amber-300 text-amber-900 text-xs font-semibold px-2.5 py-1 rounded-full";
         badge.textContent = kid;
         wordBank.appendChild(badge);
 
@@ -223,7 +240,6 @@
         datalist.appendChild(option);
       });
 
-      // Render each Saint Question Card
       SAINT_ROSTER.forEach((item, index) => {
         const card = document.createElement("div");
         card.className = "bg-white rounded-2xl shadow-xs border border-slate-200 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3";
@@ -247,105 +263,213 @@
       });
     }
 
-    // Normalize input strings (ignores spaces, capitalization, and punctuation)
     function cleanText(str) {
       return (str || "").toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
     }
 
-    function submitQuiz() {
+    async function submitQuiz() {
       const playerName = document.getElementById("player-name").value.trim();
+      const groupName = document.getElementById("player-group").value.trim();
       if (!playerName) {
         alert("Please enter your Name or Family Name at the top before submitting!");
         document.getElementById("player-name").focus();
         return;
       }
 
+      if (localStorage.getItem("all_saints_submitted") === "true") {
+        if (!confirm("You have already submitted an entry on this phone. Submit another entry anyway?")) {
+          return;
+        }
+      }
+
+      const submitBtn = document.getElementById("submit-btn");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Saving Score...";
+
       let score = 0;
       const maxScore = SAINT_ROSTER.length * POINTS_PER_SAINT;
-      const breakdownEl = document.getElementById("answer-breakdown");
-      breakdownEl.innerHTML = "";
+      let answerSummary = [];
 
+      // Grade silently in the background (only saved to the organizer's file/sheet, NOT shown on screen)
       SAINT_ROSTER.forEach((item, idx) => {
-        const rawInput = document.getElementById(`answer-${item.id}`).value;
+        const rawInput = document.getElementById(`answer-${item.id}`).value.trim();
         const userClean = cleanText(rawInput);
-
         const isCorrect = item.acceptedNames.some(ans => cleanText(ans) === userClean);
         if (isCorrect) score += POINTS_PER_SAINT;
 
-        const row = document.createElement("div");
-        row.className = `p-3 rounded-xl border text-sm flex justify-between items-center ${
-          isCorrect ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"
-        }`;
-        row.innerHTML = `
-          <div>
-            <p class="font-bold text-slate-800">${idx + 1}. ${item.saint}</p>
-            <p class="text-xs text-slate-600">
-              Your answer: <span class="font-semibold">${rawInput || "(Blank)"}</span> 
-              ${!isCorrect ? `• Correct Kid: <span class="font-bold text-emerald-700">${item.kidDisplay}</span>` : ""}
-            </p>
-          </div>
-          <span class="font-black text-xs px-2.5 py-1 rounded-lg ${
-            isCorrect ? "bg-emerald-200 text-emerald-900" : "bg-rose-200 text-rose-900"
-          }">
-            ${isCorrect ? `+${POINTS_PER_SAINT} pts` : "0 pts"}
-          </span>
-        `;
-        breakdownEl.appendChild(row);
+        answerSummary.push(`${idx + 1}. ${item.saint}: ${rawInput || "Blank"} (${isCorrect ? "Correct" : "Wrong"})`);
       });
 
-      // Populate Certificate View
-      const groupName = document.getElementById("player-group").value.trim();
+      const timestamp = new Date().toLocaleString();
+      lastSubmittedRecord = {
+        timestamp: timestamp,
+        name: playerName,
+        group: groupName,
+        score: score,
+        maxScore: maxScore,
+        answers: answerSummary.join(" | ")
+      };
+
+      // Also save to local browser storage as a backup file list
+      const localHistory = JSON.parse(localStorage.getItem("parish_quiz_scores") || "[]");
+      localHistory.push(lastSubmittedRecord);
+      localStorage.setItem("parish_quiz_scores", JSON.stringify(localHistory));
+
+      const statusEl = document.getElementById("save-status");
+
+      // Send to Central Google Sheet
+      if (GOOGLE_SCRIPT_URL && !GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) {
+        try {
+          await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(lastSubmittedRecord)
+          });
+          localStorage.setItem("all_saints_submitted", "true");
+          statusEl.textContent = "✅ Score Saved to Parish Google Sheet!";
+        } catch (err) {
+          statusEl.textContent = "⚠️ Saved Locally — Show this screen to the organizer!";
+        }
+      } else {
+        statusEl.textContent = "✅ Score Calculated — Saved to Local File!";
+      }
+
+      const correctCount = score / POINTS_PER_SAINT;
       document.getElementById("cert-name").textContent = groupName ? `${playerName} (${groupName})` : playerName;
       document.getElementById("score-display").textContent = `${score} / ${maxScore}`;
-      const percent = Math.round((score / maxScore) * 100);
-      document.getElementById("accuracy-display").textContent = `${percent}% Accuracy • ${score / POINTS_PER_SAINT} of ${SAINT_ROSTER.length} Saints Identified`;
+      document.getElementById("accuracy-display").textContent = `${correctCount} of ${SAINT_ROSTER.length} Correct • Submitted at ${new Date().toLocaleTimeString()}`;
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Answers";
 
       document.getElementById("view-quiz").classList.add("hidden");
       document.getElementById("view-results").classList.remove("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function resetQuiz() {
-      SAINT_ROSTER.forEach(item => {
-        document.getElementById(`answer-${item.id}`).value = "";
+    // Downloads an individual text receipt file for the player
+    function downloadMyReceipt() {
+      if (!lastSubmittedRecord) return;
+      const content = [
+        "==========================================",
+        "   ALL SAINTS' DAY QUIZ — SCORE RECEIPT   ",
+        "==========================================",
+        `Participant : ${lastSubmittedRecord.name}`,
+        `Ward/Group  : ${lastSubmittedRecord.group || "N/A"}`,
+        `Final Score : ${lastSubmittedRecord.score} / ${lastSubmittedRecord.maxScore}`,
+        `Timestamp   : ${lastSubmittedRecord.timestamp}`,
+        "=========================================="
+      ].join("\n");
+
+      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `Score_${lastSubmittedRecord.name.replace(/\s+/g, "_")}.txt`;
+      link.click();
+    }
+
+    // Downloads ALL scores as an Excel-compatible .CSV file for the Organizer
+    function exportAllScoresToCSV() {
+      const dataToExport = cachedLeaderboardData.length
+        ? cachedLeaderboardData
+        : JSON.parse(localStorage.getItem("parish_quiz_scores") || "[]");
+
+      if (!dataToExport.length) {
+        alert("No scores available to download yet!");
+        return;
+      }
+
+      const headers = ["Rank", "Timestamp", "Participant Name", "Ward/Group", "Score", "Max Score"];
+      const csvRows = [headers.join(",")];
+
+      dataToExport.forEach((row, index) => {
+        const safeName = `"${(row.name || "").replace(/"/g, '""')}"`;
+        const safeGroup = `"${(row.group || "").replace(/"/g, '""')}"`;
+        const safeTime = `"${new Date(row.timestamp).toLocaleString()}"`;
+        csvRows.push([index + 1, safeTime, safeName, safeGroup, row.score, row.maxScore].join(","));
       });
-      document.getElementById("view-results").classList.add("hidden");
-      document.getElementById("view-quiz").classList.remove("hidden");
+
+      const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `All_Saints_Quiz_Scores_${new Date().toISOString().slice(0,10)}.csv`;
+      link.click();
+    }
+
+    async function loadLeaderboard() {
+      const listEl = document.getElementById("leaderboard-list");
+
+      // If Google Script isn't connected yet, fall back to local device scores
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) {
+        const localData = JSON.parse(localStorage.getItem("parish_quiz_scores") || "[]");
+        cachedLeaderboardData = localData;
+        if (!localData.length) {
+          listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">No local scores yet. Connect your Google Script URL to sync scores across all phones!</p>`;
+          return;
+        }
+        renderLeaderboardRows(localData);
+        return;
+      }
+
+      listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">Loading latest scores from Google Sheet...</p>`;
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL);
+        const data = await res.json();
+        cachedLeaderboardData = data;
+
+        if (!data.length) {
+          listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">No scores submitted yet! Be the first!</p>`;
+          return;
+        }
+        renderLeaderboardRows(data);
+      } catch (e) {
+        listEl.innerHTML = `<p class="text-rose-600">Could not load cloud leaderboard. Check your Google Script URL.</p>`;
+      }
+    }
+
+    function renderLeaderboardRows(data) {
+      const listEl = document.getElementById("leaderboard-list");
+      listEl.innerHTML = data.map((row, idx) => {
+        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`;
+        const timeStr = row.timestamp ? new Date(row.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}) : "";
+        return `
+          <div class="flex justify-between items-center p-3 rounded-xl border ${idx < 3 ? 'bg-amber-50/70 border-amber-300' : 'bg-slate-50 border-slate-200'}">
+            <div class="flex items-center gap-3">
+              <span class="font-black text-base w-7 text-center">${medal}</span>
+              <div>
+                <p class="font-bold text-slate-900">${row.name} ${row.group ? `<span class="text-xs font-normal text-slate-500">(${row.group})</span>` : ""}</p>
+                <p class="text-[11px] text-slate-400">Submitted at ${timeStr}</p>
+              </div>
+            </div>
+            <span class="font-black text-amber-800 bg-amber-200/70 px-3 py-1 rounded-lg text-sm">
+              ${row.score} / ${row.maxScore}
+            </span>
+          </div>
+        `;
+      }).join("");
     }
 
     function switchTab(tab) {
-      const isQuiz = tab === "quiz";
-      document.getElementById("view-quiz").classList.toggle("hidden", !isQuiz);
+      document.getElementById("view-quiz").classList.toggle("hidden", tab !== "quiz");
       document.getElementById("view-results").classList.add("hidden");
-      document.getElementById("view-qr").classList.toggle("hidden", isQuiz);
+      document.getElementById("view-leaderboard").classList.toggle("hidden", tab !== "leaderboard");
+      document.getElementById("view-qr").classList.toggle("hidden", tab !== "qr");
 
-      document.getElementById("tab-quiz").className = isQuiz
-        ? "px-3 py-1.5 rounded-lg text-sm font-semibold bg-white text-amber-800 shadow"
-        : "px-3 py-1.5 rounded-lg text-sm font-semibold bg-amber-800 text-amber-100";
-      document.getElementById("tab-qr").className = !isQuiz
-        ? "px-3 py-1.5 rounded-lg text-sm font-semibold bg-white text-amber-800 shadow"
-        : "px-3 py-1.5 rounded-lg text-sm font-semibold bg-amber-800 text-amber-100";
+      ["quiz", "leaderboard", "qr"].forEach(t => {
+        document.getElementById(`tab-${t}`).className = (t === tab)
+          ? "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-amber-800 shadow"
+          : "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600";
+      });
+
+      if (tab === "leaderboard") loadLeaderboard();
     }
 
     function initQR() {
       const currentUrl = window.location.href;
-      document.getElementById("custom-url").value = currentUrl;
       document.getElementById("qr-url-label").textContent = currentUrl;
-      qrInstance = new QRCode(document.getElementById("qrcode"), {
+      new QRCode(document.getElementById("qrcode"), {
         text: currentUrl,
-        width: 200,
-        height: 200,
-        colorDark: "#78350f",
-        colorLight: "#ffffff"
-      });
-    }
-
-    function updateQR() {
-      const newUrl = document.getElementById("custom-url").value.trim() || window.location.href;
-      document.getElementById("qrcode").innerHTML = "";
-      document.getElementById("qr-url-label").textContent = newUrl;
-      qrInstance = new QRCode(document.getElementById("qrcode"), {
-        text: newUrl,
         width: 200,
         height: 200,
         colorDark: "#78350f",
