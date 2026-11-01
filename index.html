@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Saints' Day — Who's That Saint? Quiz</title>
+  <title>St. Mary's Syro-Malabar Catholic Church, Charlotte, NC — All Saints' Day Challenge</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
@@ -16,82 +16,98 @@
 <body class="bg-amber-50 min-h-screen font-sans text-slate-800">
 
   <!-- Top Navigation Bar -->
-  <header class="bg-amber-700 text-white shadow-md no-print">
+  <header class="bg-amber-800 text-white shadow-lg no-print border-b-4 border-amber-600">
     <div class="max-w-3xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-2">
       <div>
-        <h1 class="text-xl font-bold tracking-wide">St.Mary's Syro Malabar Catholic Church,Charlotte,NC.
-		<br>All Saints' Day Challenge</br></h1>
-        <p class="text-xs text-amber-200">Parish Community Saint Dress-Up Quiz</p>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">⛪✨</span>
+          <h1 class="text-lg sm:text-xl font-black tracking-wide">St. Mary's Syro-Malabar Catholic Church</h1>
+        </div>
+        <p class="text-xs text-amber-200 pl-8 font-medium">Charlotte, NC • All Saints' Day Challenge!</p>
       </div>
       <div class="flex gap-1.5">
-        <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-amber-800 shadow">
-          Play Quiz
+        <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-amber-900 shadow">
+          Quiz
         </button>
-        <button onclick="switchTab('leaderboard')" id="tab-leaderboard" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600">
+        <button onclick="switchTab('leaderboard')" id="tab-leaderboard" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-900 text-amber-100 hover:bg-amber-700">
           🏆 Leaderboard
         </button>
-        <button onclick="switchTab('qr')" id="tab-qr" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600">
+        <button onclick="switchTab('qr')" id="tab-qr" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-900 text-amber-100 hover:bg-amber-700">
           QR Poster
         </button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto p-4">
+  <main class="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
+
+    <!-- Theme Header Banner -->
+    <div class="bg-gradient-to-r from-amber-700 to-amber-900 rounded-3xl p-6 text-white shadow-md text-center relative overflow-hidden">
+      <div class="absolute -right-4 -bottom-4 text-8xl opacity-10">🕊️</div>
+      <div class="absolute -left-4 -top-4 text-8xl opacity-10">👑</div>
+      <span class="bg-amber-600 text-amber-100 text-xs font-black px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2">
+        🕯️ Communion of Saints Celebration
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Who's That Saint? (Tap to Select)</h2>
+      <p class="text-amber-100 text-sm max-w-xl mx-auto mt-2">
+        Walk around our parish hall, admire our wonderful children dressed in saint costumes, and tap the correct child's name for each saint below!
+      </p>
+    </div>
 
     <!-- ================= TAB 1: PLAYER QUIZ VIEW ================= -->
     <section id="view-quiz" class="space-y-5">
       <div class="bg-white rounded-2xl shadow-sm border border-amber-200 p-5">
-        <h2 class="text-lg font-bold text-amber-900 mb-1">How to Play</h2>
-        <p class="text-sm text-slate-600 mb-4">
-          Spot the kids dressed as saints around the parish hall and type the <strong>name of the child</strong> dressed as each saint in the text box provided! Each correct answer earns <strong>10 points</strong>.
-        </p>
-
+        <h3 class="text-base font-bold text-amber-900 mb-2 flex items-center gap-2">
+          <span>📝</span> Participant Information
+        </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Your Name / Family Name *</label>
-            <input type="text" id="player-name" placeholder="e.g., Thomas Family" 
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            <input type="text" id="player-name" autocomplete="off" placeholder="e.g., Thomas Family" 
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-600 focus:outline-none text-sm">
           </div>
           <div>
-            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Ward / Grade (Optional)</label>
-            <input type="text" id="player-group" placeholder="e.g., St. Joseph Ward" 
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Ward / Group (Optional)</label>
+            <input type="text" id="player-group" autocomplete="off" placeholder="e.g., St. Joseph Ward" 
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-600 focus:outline-none text-sm">
           </div>
         </div>
       </div>
 
-      <!-- Saint Questions Container (Free-Text Input Boxes Only) -->
-      <div id="questions-container" class="space-y-3"></div>
+      <!-- Saint Questions Container (Multiple-Choice Buttons) -->
+      <div id="questions-container" class="space-y-4"></div>
 
       <div class="pt-2 pb-8">
-        <button id="submit-btn" onclick="submitQuiz()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg transition text-lg">
-          Submit Answers to Quiz Leader
+        <button id="submit-btn" onclick="submitQuiz()" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transition text-lg flex items-center justify-center gap-2">
+          <span>✨</span> Submit Final Answers to Quiz Leader
         </button>
       </div>
     </section>
 
-    <!-- ================= TAB 2: SCORE CARD (NO ANSWERS SHOWN) ================= -->
+    <!-- ================= TAB 2: SCORE CARD ================= -->
     <section id="view-results" class="hidden space-y-6">
       <div class="bg-white rounded-2xl shadow-lg border-4 border-amber-400 p-8 text-center">
-        <div class="text-5xl mb-3">👑</div>
-        <h2 class="text-2xl font-extrabold text-amber-900">Quiz Submitted!</h2>
+        <div class="text-5xl mb-3">🎉👑</div>
+        <h2 class="text-2xl font-extrabold text-amber-900">Quiz Submitted Successfully!</h2>
         <p class="text-slate-600 mt-1 text-base">Participant: <span id="cert-name" class="font-bold text-slate-900"></span></p>
         
-        <p id="save-status" class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-3.5 py-1 inline-block mt-3">
-          ✅ Sent to Quiz Leader's Google Sheet
+        <p id="save-status" class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-4 py-1 inline-block mt-3">
+          ✅ Sent to St. Mary's Google Sheet Leaderboard
         </p>
         
-        <!-- Summary Score Only (Correct Answers Hidden) -->
         <div class="my-6 bg-amber-50 rounded-2xl py-6 px-6 border border-amber-200 block max-w-xs mx-auto shadow-inner">
           <p class="text-xs uppercase font-bold tracking-widest text-amber-700">Your Total Score</p>
-          <p class="text-5xl font-black text-amber-600 my-2" id="score-display">0 / 0</p>
+          <p class="text-5xl font-black text-amber-600 my-2" id="score-display">0 / 200</p>
           <p class="text-xs text-slate-500 font-medium" id="accuracy-display"></p>
         </div>
 
-        <div class="mt-6 flex justify-center no-print">
-          <button onclick="switchTab('leaderboard')" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2.5 px-6 rounded-xl shadow text-sm">
-            🏆 View Live Leaderboard
+        <p class="text-xs text-slate-400 mb-6">
+          Thank you for participating in St. Mary's Syro-Malabar Church All Saints' Day Challenge!
+        </p>
+
+        <div class="flex justify-center no-print">
+          <button onclick="switchTab('leaderboard')" class="bg-amber-800 hover:bg-amber-900 text-white font-semibold py-3 px-6 rounded-xl shadow text-sm flex items-center gap-2">
+            <span>🏆</span> View Live Parish Leaderboard
           </button>
         </div>
       </div>
@@ -102,34 +118,43 @@
       <div class="bg-white rounded-2xl shadow-sm border border-amber-200 p-5">
         <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
           <div>
-            <h2 class="text-xl font-extrabold text-amber-900">🏆 Official Parish Leaderboard</h2>
-            <p class="text-xs text-slate-500">Live from the Quiz Leader's Google Sheet (Ranked by Score & Time)</p>
+            <h2 class="text-xl font-extrabold text-amber-900 flex items-center gap-2">
+              <span>🏆</span> St. Mary's Parish Leaderboard
+            </h2>
+            <p class="text-xs text-slate-500">Live rankings from our Google Sheet (Ranked by Score & Time)</p>
           </div>
-          <button onclick="loadLeaderboard()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-3.5 py-2 rounded-xl">
-            🔄 Refresh
+          <button onclick="loadLeaderboard()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5">
+            <span>🔄</span> Refresh Standings
           </button>
         </div>
         <div id="leaderboard-list" class="space-y-2 text-sm text-slate-600">
-          Loading leaderboard from Quiz Leader's Google Sheet...
+          Loading leaderboard from Google Sheet...
         </div>
       </div>
     </section>
 
     <!-- ================= TAB 4: QR CODE POSTER VIEW ================= -->
     <section id="view-qr" class="hidden">
-      <div class="bg-white rounded-2xl shadow-md border-2 border-amber-300 p-8 text-center max-w-lg mx-auto">
-        <p class="text-sm font-bold uppercase tracking-widest text-amber-600 mb-1">Parish All Saints' Day</p>
-        <h2 class="text-3xl font-black text-slate-900 mb-2">Who's That Saint?</h2>
-        <p class="text-slate-600 text-sm mb-6">
-          Scan the QR code below with your phone camera to join the live costume scavenger hunt!
-        </p>
-        <div class="flex justify-center my-4">
-          <div id="qrcode" class="p-4 bg-white border-4 border-amber-500 rounded-2xl shadow-sm"></div>
+      <div class="bg-white rounded-2xl shadow-md border-2 border-amber-300 p-8 text-center max-w-lg mx-auto space-y-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+            St. Mary's Syro-Malabar Catholic Church, Charlotte, NC
+          </span>
+          <h2 class="text-3xl font-black text-slate-900 mt-2">✨ All Saints' Day Challenge ✨</h2>
+          <p class="text-slate-600 text-sm mt-1">
+            Scan the QR code below with your smartphone camera to join our costume scavenger hunt and test your saint knowledge!
+          </p>
         </div>
-        <p id="qr-url-label" class="text-xs text-slate-400 break-all mt-3 mb-6"></p>
-        <div class="no-print space-y-3 border-t border-slate-100 pt-4">
-          <button onclick="window.print()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 rounded-xl">
-            🖨️ Print Poster for Parish Community
+        
+        <div class="flex justify-center my-4">
+          <div id="qrcode" class="p-4 bg-white border-4 border-amber-500 rounded-3xl shadow-sm inline-block"></div>
+        </div>
+
+        <p id="qr-url-label" class="text-xs text-slate-400 break-all"></p>
+
+        <div class="no-print pt-2 border-t border-slate-100">
+          <button onclick="window.print()" class="w-full bg-slate-900 hover:bg-black text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2">
+            <span>🖨️</span> Print Poster for Parish Hall
           </button>
         </div>
       </div>
@@ -139,56 +164,45 @@
 
   <script>
     // =========================================================================
-    // 1. QUIZ LEADER: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
+    // 1. PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
     // =========================================================================
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwalF67AkbDtewxULYvXFwvOs7k1loUQimti3Zu1cMGIYBlIY6VsOhQ31A2Z8i5AbUp/exec";
+    const GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE";
 
     // =========================================================================
-    // 2. EDIT YOUR SAINTS & PARTICIPATING KIDS ROSTER BELOW
-    // Add common nicknames or first+last names in acceptedNames so typed text matches!
+    // 2. MASTER SAINT ROSTER (Includes correct kid name + 3 decoy names for buttons)
     // =========================================================================
-    const SAINT_ROSTER = [
-      {
-        id: 1,
-        saint: "St. Francis of Assisi",
-        clue: "Patron saint of animals and creation — look for a brown Franciscan robe or animal plush!",
-        acceptedNames: ["noah", "noah thomas"]
-      },
-      {
-        id: 2,
-        saint: "St. Thérèse of Lisieux (The Little Flower)",
-        clue: "Known for her 'Little Way' of love — look for a Carmelite habit carrying red roses!",
-        acceptedNames: ["sarah", "sarah jimmy"]
-      },
-      {
-        id: 3,
-        saint: "St. Alphonsa",
-        clue: "First canonized saint of Indian origin — look for a Clarist religious habit and crucifix!",
-        acceptedNames: ["michela", "micki", "michela jimmy"]
-      },
-      {
-        id: 4,
-        saint: "St. George",
-        clue: "Courageous Christian soldier — look for armor, a red cross shield, or a dragon prop!",
-        acceptedNames: ["aaron", "aaron mathew"]
-      },
-      {
-        id: 5,
-        saint: "St. Mother Teresa of Calcutta",
-        clue: "Missionary of Charity — look for a white sari with three blue stripes!",
-        acceptedNames: ["joanna", "juva", "joanna jimmy"]
-      },
-      {
-        id: 6,
-        saint: "St. Chavara Kuriakose Elias",
-        clue: "Co-founder of CMI & champion of Catholic schools — look for a white cassock and book!",
-        acceptedNames: ["evan", "evan joseph"]
-      }
+    const MASTER_SAINT_ROSTER = [
+      { id: 1, saint: "St. Francis of Assisi", clue: "Patron of animals & creation — look for a brown robe or animal plush!", correct: "Noah", decoys: ["Sarah", "Aaron", "Evan"] },
+      { id: 2, saint: "St. Thérèse of Lisieux", clue: "Known for her 'Little Way' — look for a Carmelite habit with red roses!", correct: "Sarah", decoys: ["Noah", "Michela", "Joanna"] },
+      { id: 3, saint: "St. Alphonsa", clue: "First canonized saint of Indian origin — look for a Clarist habit & crucifix!", correct: "Michela", decoys: ["Sarah", "Maya", "Joanna"] },
+      { id: 4, saint: "St. George", clue: "Courageous Christian soldier — look for armor, red cross shield, or dragon prop!", correct: "Aaron", decoys: ["Noah", "Ethan", "Liam"] },
+      { id: 5, saint: "St. Mother Teresa", clue: "Missionary of Charity — look for a white sari with three blue stripes!", correct: "Joanna", decoys: ["Michela", "Sarah", "Emma"] },
+      { id: 6, saint: "St. Chavara Kuriakose Elias", clue: "Co-founder of CMI & champion of Catholic schools — look for white cassock & book!", correct: "Evan", decoys: ["Noah", "Aaron", "Ethan"] },
+      { id: 7, saint: "St. Anthony of Padua", clue: "Finder of lost things — look for a brown Franciscan habit holding a child Jesus!", correct: "Ethan", decoys: ["Liam", "Lucas", "Dominic"] },
+      { id: 8, saint: "St. Patrick", clue: "Apostle of Ireland — look for green vestments and a shamrock prop!", correct: "Liam", decoys: ["Aaron", "Ethan", "Sebastian"] },
+      { id: 9, saint: "St. Joan of Arc", clue: "The Maid of Orleans — look for knight armor and a white banner!", correct: "Emma", decoys: ["Maya", "Lucy", "Bernadette"] },
+      { id: 10, saint: "St. Joseph", clue: "Patron of workers & families — look for carpenter tools and lilies!", correct: "Joseph", decoys: ["Thomas", "Nicholas", "Dominic"] },
+      { id: 11, saint: "St. Padre Pio", clue: "Stigmatist and mystic — look for a brown Capuchin friar habit!", correct: "Lucas", decoys: ["Evan", "Ethan", "Sebastian"] },
+      { id: 12, saint: "St. Kateri Tekakwitha", clue: "Lily of the Mohawks — look for Native American attire with lilies and a cross!", correct: "Maya", decoys: ["Emma", "Lucy", "Joanna"] },
+      { id: 13, saint: "St. John Paul II", clue: "Beloved Pope from Poland — look for a white cassock and papal zucchetto!", correct: "John", decoys: ["Thomas", "Nicholas", "Aaron"] },
+      { id: 14, saint: "St. Mary Magdalene", clue: "First witness of the Resurrection — look for a robe carrying an alabaster jar of ointment!", correct: "Mary", decoys: ["Sarah", "Clare", "Bernadette"] },
+      { id: 15, saint: "St. Nicholas", clue: "Bishop of Myra & protector of children — look for bishop robes and a gift sack!", correct: "Nicholas", decoys: ["Joseph", "Thomas", "Dominic"] },
+      { id: 16, saint: "St. Dominic Savio", clue: "Young patron of choir boys — look for a suit or altar server cassock holding a book!", correct: "Dominic", decoys: ["Lucas", "Liam", "Sebastian"] },
+      { id: 17, saint: "St. Lucy", clue: "Patron of sight — look for a white robe with a crown of candles!", correct: "Lucy", decoys: ["Emma", "Maya", "Clare"] },
+      { id: 18, saint: "St. Sebastian", clue: "Martyr of courage — look for Roman soldier attire with arrows!", correct: "Sebastian", decoys: ["Aaron", "Evan", "Ethan"] },
+      { id: 19, saint: "St. Bernadette", clue: "Visionary of Lourdes — look for a French peasant dress with a blue sash and rosary!", correct: "Bernadette", decoys: ["Mary", "Clare", "Lucy"] },
+      { id: 20, saint: "St. Thomas the Apostle", clue: "Apostle of India — look for ancient apostolic robes and a palm branch!", correct: "Thomas", decoys: ["Joseph", "John", "Nicholas"] }
     ];
 
     const POINTS_PER_SAINT = 10;
+    let activeQuizQuestions = [];
+    let selectedAnswers = {}; // Stores what the user taps
 
     window.addEventListener("DOMContentLoaded", () => {
+      // Randomly pick 20 saints for this participant
+      const shuffled = [...MASTER_SAINT_ROSTER].sort(() => 0.5 - Math.random());
+      activeQuizQuestions = shuffled.slice(0, 20);
+
       renderQuiz();
       initQR();
     });
@@ -197,46 +211,77 @@
       const container = document.getElementById("questions-container");
       container.innerHTML = "";
 
-      SAINT_ROSTER.forEach((item, index) => {
+      activeQuizQuestions.forEach((item, index) => {
+        // Combine correct answer and decoys, then shuffle the button choices
+        const choices = [item.correct, ...item.decoys].sort(() => 0.5 - Math.random());
+
         const card = document.createElement("div");
-        card.className = "bg-white rounded-2xl shadow-xs border border-slate-200 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+        card.className = "bg-white rounded-2xl shadow-xs border border-slate-200 p-5 space-y-3";
+        
+        let buttonsHtml = `<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">`;
+        choices.forEach(choice => {
+          buttonsHtml += `
+            <button type="button" onclick="selectChoice(${item.id}, '${choice}', this)"
+              class="choice-btn-${item.id} px-3 py-2.5 rounded-xl border-2 border-slate-200 text-slate-700 text-xs sm:text-sm font-bold hover:border-amber-500 hover:bg-amber-50 transition">
+              ${choice}
+            </button>
+          `;
+        });
+        buttonsHtml += `</div>`;
+
         card.innerHTML = `
-          <div class="space-y-1">
-            <div class="flex items-center gap-2">
-              <span class="bg-amber-100 text-amber-800 text-xs font-black px-2.5 py-0.5 rounded-md">
-                #${index + 1}
-              </span>
-              <h3 class="font-bold text-slate-900 text-base">${item.saint}</h3>
-            </div>
-            <p class="text-xs text-slate-500 pl-1">${item.clue}</p>
+          <div class="flex items-center gap-2">
+            <span class="bg-amber-100 text-amber-900 text-xs font-black px-2.5 py-0.5 rounded-md">
+              #${index + 1}
+            </span>
+            <h3 class="font-bold text-slate-900 text-base">${item.saint}</h3>
           </div>
-          <div class="sm:w-64 shrink-0">
-            <input type="text" id="answer-${item.id}" autocomplete="off"
-              placeholder="Enter kid's name here..." 
-              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
-          </div>
+          <p class="text-xs text-slate-500 pl-1">${item.clue}</p>
+          ${buttonsHtml}
         `;
         container.appendChild(card);
       });
+    }
+
+    function selectChoice(saintId, choiceValue, btnElement) {
+      selectedAnswers[saintId] = choiceValue;
+
+      // Highlight selected button, unhighlight others for this saint
+      const groupButtons = document.querySelectorAll(`.choice-btn-${saintId}`);
+      groupButtons.forEach(btn => {
+        btn.classList.remove("bg-amber-600", "text-white", "border-amber-600", "shadow");
+        btn.classList.add("border-slate-200", "text-slate-700");
+      });
+
+      btnElement.classList.remove("border-slate-200", "text-slate-700");
+      btnElement.classList.add("bg-amber-600", "text-white", "border-amber-600", "shadow");
     }
 
     function cleanText(str) {
       return (str || "").toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
     }
 
+    function clearFormForNextPlayer() {
+      document.getElementById("player-name").value = "";
+      document.getElementById("player-group").value = "";
+      selectedAnswers = {};
+      renderQuiz(); // Re-renders fresh shuffled buttons
+    }
+
     async function submitQuiz() {
       const playerName = document.getElementById("player-name").value.trim();
       const groupName = document.getElementById("player-group").value.trim();
       if (!playerName) {
-        alert("Please enter your Name or Family Name at the top before submitting!");
+        alert("Please enter your Participant Name at the top before submitting!");
         document.getElementById("player-name").focus();
         return;
       }
 
-      if (localStorage.getItem("all_saints_submitted") === "true") {
-        if (!confirm("You have already submitted an entry on this phone. Submit another entry anyway?")) {
-          return;
-        }
+      const normalizedPlayer = cleanText(playerName);
+      const submittedPlayers = JSON.parse(localStorage.getItem("all_saints_submitted_names") || "[]");
+      if (submittedPlayers.includes(normalizedPlayer)) {
+        alert(`"${playerName}" has already submitted an entry! Only one attempt is allowed per participant.`);
+        return;
       }
 
       const submitBtn = document.getElementById("submit-btn");
@@ -244,24 +289,24 @@
       submitBtn.textContent = "Sending Score to Quiz Leader...";
 
       let score = 0;
-      const maxScore = SAINT_ROSTER.length * POINTS_PER_SAINT;
+      const maxScore = activeQuizQuestions.length * POINTS_PER_SAINT;
       let answerSummary = [];
 
-      // Grade silently (detailed breakdown goes ONLY to Quiz Leader's Google Sheet)
-      SAINT_ROSTER.forEach((item, idx) => {
-        const rawInput = document.getElementById(`answer-${item.id}`).value.trim();
-        const userClean = cleanText(rawInput);
-        const isCorrect = item.acceptedNames.some(ans => cleanText(ans) === userClean);
+      activeQuizQuestions.forEach((item, idx) => {
+        const chosen = selectedAnswers[item.id] || "No Answer";
+        const isCorrect = chosen.toLowerCase() === item.correct.toLowerCase();
         if (isCorrect) score += POINTS_PER_SAINT;
 
-        answerSummary.push(`${idx + 1}. ${item.saint}: ${rawInput || "Blank"} (${isCorrect ? "✓" : "✗"})`);
+        answerSummary.push(`${idx + 1}. ${item.saint}: ${chosen} (${isCorrect ? "✓" : "✗"})`);
       });
 
+      const submittedTime = new Date().toLocaleTimeString();
       const payload = {
         name: playerName,
         group: groupName,
         score: score,
         maxScore: maxScore,
+        time: submittedTime,
         answers: answerSummary.join(" | ")
       };
 
@@ -274,21 +319,24 @@
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload)
         });
-        localStorage.setItem("all_saints_submitted", "true");
-        statusEl.textContent = "✅ Score Saved to Quiz Leader's Google Sheet!";
-        statusEl.className = "text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-3.5 py-1 inline-block mt-3";
+        statusEl.textContent = "✅ Score Saved to St. Mary's Google Sheet!";
+        statusEl.className = "text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-4 py-1 inline-block mt-3";
       } catch (err) {
         statusEl.textContent = "⚠️ Could not reach Google Sheet — Please show this screen to the Quiz Leader!";
-        statusEl.className = "text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 rounded-full px-3.5 py-1 inline-block mt-3";
+        statusEl.className = "text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 rounded-full px-4 py-1 inline-block mt-3";
       }
+
+      submittedPlayers.push(normalizedPlayer);
+      localStorage.setItem("all_saints_submitted_names", JSON.stringify(submittedPlayers));
+      clearFormForNextPlayer();
 
       const correctCount = score / POINTS_PER_SAINT;
       document.getElementById("cert-name").textContent = groupName ? `${playerName} (${groupName})` : playerName;
       document.getElementById("score-display").textContent = `${score} / ${maxScore}`;
-      document.getElementById("accuracy-display").textContent = `${correctCount} of ${SAINT_ROSTER.length} Correct • Submitted at ${new Date().toLocaleTimeString()}`;
+      document.getElementById("accuracy-display").textContent = `${correctCount} of ${activeQuizQuestions.length} Correct • Submitted at ${submittedTime}`;
 
       submitBtn.disabled = false;
-      submitBtn.textContent = "Submit Answers to Quiz Leader";
+      submitBtn.textContent = "✨ Submit Final Answers to Quiz Leader";
 
       document.getElementById("view-quiz").classList.add("hidden");
       document.getElementById("view-results").classList.remove("hidden");
@@ -297,7 +345,7 @@
 
     async function loadLeaderboard() {
       const listEl = document.getElementById("leaderboard-list");
-      listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">Loading official standings from Quiz Leader's Google Sheet...</p>`;
+      listEl.innerHTML = `<p class="text-slate-500 py-4 text-center">Loading official standings from Google Sheet...</p>`;
 
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL);
@@ -320,7 +368,7 @@
                   <p class="text-[11px] text-slate-400">Submitted at ${timeStr}</p>
                 </div>
               </div>
-              <span class="font-black text-amber-800 bg-amber-200/70 px-3 py-1 rounded-lg text-sm">
+              <span class="font-black text-amber-900 bg-amber-200/70 px-3 py-1 rounded-lg text-sm">
                 ${row.score} / ${row.maxScore}
               </span>
             </div>
@@ -339,8 +387,8 @@
 
       ["quiz", "leaderboard", "qr"].forEach(t => {
         document.getElementById(`tab-${t}`).className = (t === tab)
-          ? "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-amber-800 shadow"
-          : "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-800 text-amber-100 hover:bg-amber-600";
+          ? "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-amber-900 shadow"
+          : "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-900 text-amber-100 hover:bg-amber-700";
       });
 
       if (tab === "leaderboard") loadLeaderboard();
@@ -351,8 +399,8 @@
       document.getElementById("qr-url-label").textContent = currentUrl;
       new QRCode(document.getElementById("qrcode"), {
         text: currentUrl,
-        width: 200,
-        height: 200,
+        width: 180,
+        height: 180,
         colorDark: "#78350f",
         colorLight: "#ffffff"
       });
